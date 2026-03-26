@@ -1,9 +1,9 @@
-import { users } from "../schema";
-import { integer, pgTable, varchar, serial, text,timestamp,  } from "drizzle-orm/pg-core";
+import { User } from "./Auth/User.schema.ts";
+import { integer, pgTable, varchar,  text,timestamp,  } from "drizzle-orm/pg-core";
 
 export const Teams = pgTable("Teams", {
-    id: serial("id").primaryKey(),
+    id: integer("id").primaryKey(),
     title: varchar("title", {length: 200}),
-    createdby: integer("created_by").references(()=> users.id)
+    createdby: text("created_by").references(()=> User.id),
     created_At: timestamp("created_at").defaultNow()
 })

@@ -8,6 +8,41 @@
       "when": 1774440685220,
       "tag": "0000_daily_sandman",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1774539477904,
+      "tag": "0001_daffy_sage",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1774539962323,
+      "tag": "0002_large_titanium_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1774540277909,
+      "tag": "0003_sticky_darkstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1774540550405,
+      "tag": "0004_giant_sleepwalker",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1774540698317,
+      "tag": "0005_grey_unus",
+      "breakpoints": true
     }
   ]
 }
