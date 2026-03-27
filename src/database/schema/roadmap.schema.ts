@@ -5,15 +5,22 @@ import {
   varchar,
   timestamp,
   boolean,
-  integer
+  integer,
+  serial,
+  index
 } from "drizzle-orm/pg-core";
+import { user } from "../../../auth-schema"
 
-export const RoadMaps = pgTable("Roadmaps", {
-    id: integer("id").primaryKey(),
-    title: varchar("title", {length: 200}),
+
+export const roadmaps = pgTable(
+  "roadmaps",
+  {
+    id: serial("id").primaryKey(),
+    title: varchar("title", { length: 200 }).notNull(),
     description: text("description"),
-    isAt: boolean("is_ai").default(false),
-    created_At: timestamp("created_at").defaultNow()
-
-
-})
+    isAi: boolean("is_ai").default(false).notNull(),
+    createdBy: text("created_by").references(() => user.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (t) => [index("roadmaps_created_by_idx").on(t.createdBy)],
+);

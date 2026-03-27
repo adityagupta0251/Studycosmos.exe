@@ -1,4 +1,4 @@
-export * from "./schema/Auth/User.schema";
+export * from "../../auth-schema";
 export * from "./schema/chat.schema";
 export * from "./schema/courses.schema";
 export * from "./schema/guide.schema";
@@ -7,5 +7,5 @@ export * from "./schema/Quiz.schema";
 export * from "./schema/roadmap.schema";
 export * from "./schema/subscription.schema";
 export * from "./schema/teams.schema";
-export * from "./schema/Auth/Account.schema";
-export * from "./schema/Auth/verification.schema";
+export * from "../../auth-schema";
+export * from "../../auth-schema"

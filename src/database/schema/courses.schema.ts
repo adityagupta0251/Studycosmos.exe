@@ -5,37 +5,40 @@ import {
     timestamp,
     boolean,
     integer,
-    serial
+    serial,
+    index
     
 } from "drizzle-orm/pg-core";
-import { User } from "./Auth/User.schema";
+import { user } from "../../../auth-schema"
 
-const Courses = pgTable("Course", {
-    // Standardizing on auto-incrementing integer for the course ID
+export const courses = pgTable(
+  "courses",
+  {
     id: serial("id").primaryKey(),
-    
-    title: varchar("title", { length: 200 }),
+    title: varchar("title", { length: 200 }).notNull(),
     description: text("description"),
-    
-    // FIX: Changed from integer to text to match User.id
-    createdby: text("created_by").references(() => User.id),
-    
-    created_At: timestamp("created_at").defaultNow()
-});
+    createdBy: text("created_by")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (t) => [index("courses_created_by_idx").on(t.createdBy)],
+);
 
-const PremiumCourses = pgTable("premium", {
-    // Standardizing on auto-incrementing integer for the premium ID
+
+export const premiumCourses = pgTable(
+  "premium_courses",
+  {
     id: serial("id").primaryKey(),
-    
-    title: varchar("title", { length: 150 }),
+    title: varchar("title", { length: 150 }).notNull(),
     description: text("description"),
-    
-    // FIX: Changed from integer to text to match User.id
-    createdby: text("created_by").references(() => User.id),
-    
-    created_At: timestamp("created_at").defaultNow(),
-    active: boolean("active").default(true),
-    plan: varchar("plan", { length: 50 }),
-});
+    createdBy: text("created_by")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    active: boolean("active").default(true).notNull(),
+    plan: varchar("plan", { length: 50 }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (t) => [index("premium_courses_created_by_idx").on(t.createdBy)],
+);
 
-export { Courses, PremiumCourses };

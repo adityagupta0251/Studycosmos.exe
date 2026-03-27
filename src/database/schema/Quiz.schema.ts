@@ -3,18 +3,21 @@ import {
   text,
   varchar,
   timestamp,
-  serial
+  serial,
+  index
 } from "drizzle-orm/pg-core";
-import { User } from "./Auth/User.schema.ts";
+import { user } from "../../../auth-schema"
 
-export const Quiz = pgTable("quiz", {
-    // Standard auto-incrementing ID for the quiz
+import { t } from "elysia";
+export const quiz = pgTable(
+  "quiz",
+  {
     id: serial("id").primaryKey(),
-    
-    title: varchar("title", { length: 200 }),
-    
-    // FIX: Changed from integer to text to match User.id type
-    createdby: text("created_by").references(() => User.id),
-    
-    created_At: timestamp("created_at").defaultNow()
-});
+    title: varchar("title", { length: 200 }).notNull(),
+    createdBy: text("created_by")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (t) => [index("quiz_created_by_idx").on(t.createdBy)],
+);

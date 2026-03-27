@@ -1,13 +1,18 @@
-import { integer, pgTable, varchar, text,timestamp } from "drizzle-orm/pg-core";
-import { User } from "./Auth/User.schema.ts";
+import { integer, pgTable, varchar, text,timestamp, serial, index } from "drizzle-orm/pg-core";
+import { user } from "../../../auth-schema"
 
 
 
-export const Projects = pgTable("users", {
-  id: integer("id").primaryKey(),
-  title: varchar("title", {length: 300}),
-  description: text("description"),
-  userId: text("user_Id").references(()=> User.id),
-  created_At: timestamp("created_at").defaultNow()
-
-});
+export const projects = pgTable(
+  "projects",
+  {
+    id: serial("id").primaryKey(),
+    title: varchar("title", { length: 300 }).notNull(),
+    description: text("description"),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (t) => [index("projects_user_id_idx").on(t.userId)],
+);

@@ -5,14 +5,22 @@ import {
     varchar,
     timestamp,
     boolean,
-    integer
+    integer,
+    serial,
+    index
 } from "drizzle-orm/pg-core";
-import { User } from "./Auth/User.schema";
+import { user } from "../../../auth-schema"
 
-export const Chat = pgTable("chat_message", {
-    id: integer("id").primaryKey(),
-    userId: text("user_id").references(() => User.id),
-    message: text("message"),
-    role: varchar("role", { length: 20 }),
-    createdAt: timestamp("created_at").defaultNow()
-})
+export const Chat = pgTable(
+  "chat_messages",
+  {
+    id: serial("id").primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    message: text("message").notNull(),
+    role: varchar("role", { length: 20 }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (t) => [index("chat_messages_user_id_idx").on(t.userId)],
+);
