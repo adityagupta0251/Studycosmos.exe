@@ -2,7 +2,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 
 
-const connectionString = process.env.DB_URL || "postgresql://postgres:yourpassword@localhost:5432/yourdbname";
+const connectionString = process.env.DB_URL || "postgresql://postgres:new_secure_password@localhost:5432/mydb";
 
 export const pool = new Pool({
   connectionString,

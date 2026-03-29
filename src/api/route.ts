@@ -6,7 +6,6 @@ import { teamsRouter } from "../routes/teams/teams.routes";
 import { getStartedRouter } from "../routes/get-started.routes";
 import { premiumRouter } from "../routes/premium.routes";
 import { Elysia } from "elysia";
-import { swagger } from "@elysiajs/swagger";
 
 export const api = new Elysia({ prefix: "/api" })
   
