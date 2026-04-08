@@ -1,11 +1,12 @@
 import { Elysia } from 'elysia'
+import { GuidesController } from "../../controllers/guides.controller";
+import { authPlugin, protectedRoute } from "../../lib/auth-middleware";
 
-export const guidesRouter = new Elysia()
-    .group('/guides', (app) =>
-        app
-            .post('/sign-in', 'Sign in')
-            .post('/sign-up', 'Sign up')
-            .post('/profile', 'Profile')
-    )
-    
+const guidesController = new GuidesController();
 
+export const guidesRouter = new Elysia({ prefix: "/guides" })
+  .use(authPlugin)
+  .post('/sign-in', guidesController.signIn)
+  .post('/sign-up', guidesController.signUp)
+  .use(protectedRoute)
+  .post('/profile', guidesController.profile);

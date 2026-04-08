@@ -1,15 +1,8 @@
 import { Elysia } from "elysia";
-import { db, connectDb } from "../../database/db.connect";
-// Use prefix in the constructor instead of .group for cleaner syntax
+import { CourseController } from "../../controllers/course.controller";
+
+const courseController = new CourseController();
+
 export const courseRouter = new Elysia({ prefix: "/course" })
-  .get("/:id", ({ params: { id } }) => {
-    return {
-      message: `Course details for course ID: ${id}`,
-    };
-  })
-  .post("/", ({ body }) => {
-    return { message: "Course created!", data: body };
-  })
-  .post("/", () => {
-    return { message: "Course created successfully" };
-  });
+  .get("/:id", courseController.getCourse)
+  .post("/", courseController.createCourse);
